@@ -9,7 +9,7 @@ import java.util.List;
 
 import util.ConnectionFactory;
 
-public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
+public class HouseInfoDAOImpl implements HouseInfoDAO<ArticleBean>{
 	
 	private Connection conn;
 	
@@ -18,16 +18,16 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 	}
 
 	@Override
-	public List<HouseInfoBean> queryHouseInfo() throws SQLException {
+	public List<ArticleBean> queryHouseInfo() throws SQLException {
 		String sqlStr = "SELECT * FROM houseInfo";
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
 		ResultSet rs = preState.executeQuery();
 		
-		List<HouseInfoBean> list = new ArrayList<HouseInfoBean>();
+		List<ArticleBean> list = new ArrayList<ArticleBean>();
 		
 		while (rs.next()) {
-			HouseInfoBean houseInfo = new HouseInfoBean();
+			ArticleBean houseInfo = new ArticleBean();
 			
 			houseInfo.setH_hosueNo(rs.getString("h_houseNo"));
 			houseInfo.setH_title(rs.getString("h_title"));
@@ -44,7 +44,7 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 		return list;
 	}
 	
-	public List<HouseInfoBean> queryHouseInfoByH_type(String h_type) throws SQLException {
+	public List<ArticleBean> queryHouseInfoByH_type(String h_type) throws SQLException {
 		String sqlStr = "SELECT * FROM houseInfo WHERE h_type = ?";
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -52,10 +52,10 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 		
 		ResultSet rs = preState.executeQuery();
 		
-		List<HouseInfoBean> list = new ArrayList<HouseInfoBean>();
+		List<ArticleBean> list = new ArrayList<ArticleBean>();
 		
 		while (rs.next()) {
-			HouseInfoBean houseInfo = new HouseInfoBean();
+			ArticleBean houseInfo = new ArticleBean();
 			
 			houseInfo.setH_hosueNo(rs.getString("h_hosueNo"));
 			houseInfo.setH_title(rs.getString("h_title"));
@@ -73,7 +73,7 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 	}
 	
 	@Override
-	public void insertHouseInfo(HouseInfoBean houseInfo) throws SQLException {
+	public void insertHouseInfo(ArticleBean houseInfo) throws SQLException {
 		String sqlStr = "INSERT INTO houseInfo VALUES(?, ?, ?, ?, ?, ?)";
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -91,7 +91,7 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 	}
 	
 	@Override
-	public void updateHouseInfo(HouseInfoBean houseInfo) throws SQLException {
+	public void updateHouseInfo(ArticleBean houseInfo) throws SQLException {
 		String sqlStr = "UPDATE houseInfo SET h_title = ?, h_address = ?, h_type = ?, h_about = ? WHERE h_hosueNo = ?";
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -108,7 +108,7 @@ public class HouseInfoDAOImpl implements HouseInfoDAO<HouseInfoBean>{
 	}
 	
 	@Override
-	public void deleteHouseInfo(HouseInfoBean houseInfo) throws SQLException {
+	public void deleteHouseInfo(ArticleBean houseInfo) throws SQLException {
 		String sqlStr = "DELETE FROM houseInfo WHERE h_hosueNo = ?";
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		

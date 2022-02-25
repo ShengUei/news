@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.HouseInfoBean;
+import model.ArticleBean;
 import model.HouseInfoDAOImpl;
 
 @WebServlet(
@@ -33,7 +33,7 @@ public class UpdateHouseInfoController extends HttpServlet {
 	}
      
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HouseInfoBean houseInfo = new HouseInfoBean();
+		ArticleBean houseInfo = new ArticleBean();
 		
 		houseInfo.setH_hosueNo(request.getParameter("h_hosueNo"));
 		houseInfo.setH_title(request.getParameter("h_title"));
@@ -48,7 +48,7 @@ public class UpdateHouseInfoController extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HouseInfoBean houseInfo = new HouseInfoBean();
+		ArticleBean houseInfo = new ArticleBean();
 		
 		houseInfo.setH_hosueNo(request.getParameter("h_hosueNo"));
 		houseInfo.setH_title(request.getParameter("h_title"));

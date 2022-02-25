@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.HouseInfoBean;
+import model.ArticleBean;
 import model.HouseInfoDAOImpl;
 
 @WebServlet(
@@ -39,7 +39,7 @@ public class CreateHouseInfoController extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HouseInfoBean houseInfo = new HouseInfoBean();
+		ArticleBean houseInfo = new ArticleBean();
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		

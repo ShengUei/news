@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import model.HouseInfoBean;
+import model.ArticleBean;
 import model.HouseInfoDAOImpl;
 
 @WebServlet(
@@ -37,7 +37,7 @@ public class HouseInfoControllerTest extends HttpServlet {
 		HouseInfoDAOImpl dao = new HouseInfoDAOImpl();
 		
 		try {
-			List<HouseInfoBean> houseInfoList;
+			List<ArticleBean> houseInfoList;
 			String search = request.getParameter("search");
 			
 			if (request.getParameter("search") != "" && request.getParameter("search") != null) {

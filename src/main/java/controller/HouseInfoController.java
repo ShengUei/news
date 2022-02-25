@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.HouseInfoBean;
+import model.ArticleBean;
 import model.HouseInfoDAOImpl;
 
 @WebServlet(
@@ -34,7 +34,7 @@ public class HouseInfoController extends HttpServlet {
 		HouseInfoDAOImpl dao = new HouseInfoDAOImpl();
 		
 		try {
-			List<HouseInfoBean> houseInfoList;
+			List<ArticleBean> houseInfoList;
 			String search = request.getParameter("search");
 			
 			if (request.getParameter("search") != "" && request.getParameter("search") != null) {
