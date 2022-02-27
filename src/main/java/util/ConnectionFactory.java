@@ -9,7 +9,7 @@ public class ConnectionFactory {
 	
 	private static Connection createConnection() {
 		
-		String urlStr = "jdbc:sqlserver://localhost:1433;databaseName=EEIT39_MidtermProject";
+		String urlStr = "jdbc:sqlserver://localhost:1433;databaseName=SideProject1_News";
 		String user = "sa";
 		String password = "Passw0rd";
 		

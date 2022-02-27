@@ -1,17 +1,14 @@
 package model;
 
-import java.io.Serializable;
-
-public class ArticleContentBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ArticleContent {
 	
 	private String contentNo;
-	private String articleNo;
+	private int index_para;
 	private String paragraph;
 	
-	public ArticleContentBean() {
+	public ArticleContent() {
 	}
-
+	
 	public String getContentNo() {
 		return contentNo;
 	}
@@ -20,12 +17,12 @@ public class ArticleContentBean implements Serializable {
 		this.contentNo = contentNo;
 	}
 
-	public String getArticleNo() {
-		return articleNo;
+	public int getIndex_para() {
+		return index_para;
 	}
 
-	public void setArticleNo(String articleNo) {
-		this.articleNo = articleNo;
+	public void setIndex_para(int index_para) {
+		this.index_para = index_para;
 	}
 
 	public String getParagraph() {

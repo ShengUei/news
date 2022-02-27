@@ -1,17 +1,14 @@
 package model;
 
-import java.io.Serializable;
-
-public class ArticlePictureBean implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ArticlePicture {
 	
 	private String pictureNo;
-	private String articleNo;
+	private int index_pic;
 	private String picturePath;
 	
-	public ArticlePictureBean() {
+	public ArticlePicture() {
 	}
-
+	
 	public String getPictureNo() {
 		return pictureNo;
 	}
@@ -20,12 +17,12 @@ public class ArticlePictureBean implements Serializable {
 		this.pictureNo = pictureNo;
 	}
 
-	public String getArticleNo() {
-		return articleNo;
+	public int getIndex_pic() {
+		return index_pic;
 	}
 
-	public void setArticleNo(String articleNo) {
-		this.articleNo = articleNo;
+	public void setIndex_pic(int index_pic) {
+		this.index_pic = index_pic;
 	}
 
 	public String getPicturePath() {

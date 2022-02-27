@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ArticleBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -12,8 +13,8 @@ public class ArticleBean implements Serializable {
 	private Date lastUpdateTime;
 	private String category;
 	private String title;
-	private String contentNo;
-	private String pictureNo;
+	private List<ArticleContent> contentList;
+	private List<ArticlePicture> pictureList;
 	
 	public ArticleBean() {
 	}
@@ -66,20 +67,20 @@ public class ArticleBean implements Serializable {
 		this.title = title;
 	}
 
-	public String getContentNo() {
-		return contentNo;
+	public List<ArticleContent> getContentList() {
+		return contentList;
 	}
 
-	public void setContentNo(String contentNo) {
-		this.contentNo = contentNo;
+	public void setContentList(List<ArticleContent> contentList) {
+		this.contentList = contentList;
 	}
 
-	public String getPictureNo() {
-		return pictureNo;
+	public List<ArticlePicture> getPictureList() {
+		return pictureList;
 	}
 
-	public void setPictureNo(String pictureNo) {
-		this.pictureNo = pictureNo;
+	public void setPictureList(List<ArticlePicture> pictureList) {
+		this.pictureList = pictureList;
 	}
 
 }
