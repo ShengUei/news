@@ -22,12 +22,12 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 
 @WebServlet(
-		urlPatterns = {"/NewArticle"},
+		urlPatterns = {"/CreateArticle"},
 		initParams = {
 				@WebInitParam(name = "HouseInfo_Path", value = "HouseInfo.html")
 		}
 		)
-public class ArticleController extends HttpServlet {
+public class CreateArticleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String HouseInfo_Path;
@@ -79,17 +79,17 @@ public class ArticleController extends HttpServlet {
 		List<ArticlePicture> articlePictureList = new ArrayList<ArticlePicture>();
 		
 		//article
-		String articleNo = Long.toString(Math.round(Math.random() * 1000));
+		String articleNo = (Long.toString(Math.round(Math.random() * 1000) + 1000));
 		article.setArticleNo(articleNo);
-		article.setAuthor("author");
-		article.setPostTime(new Date());
+		article.setAuthor("accountTest");
+		article.setPostTime(new Date().getTime());
 		article.setTitle(request.getParameter("title"));
 		article.setCategory(request.getParameter("category"));
 		
 		//articleContent
 		String content = request.getParameter("content");
-		String[] paragraphList = content.split("\n");
-		String contentNo = Long.toString(Math.round(Math.random() * 1000));
+		String[] paragraphList = content.split("[^\\p{P}]\r\n");
+		String contentNo = Long.toString(Math.round(Math.random() * 1000) + 1000);
 		ArticleContent articleContent;
 		
 		for (int i = 0; i < paragraphList.length; i++) {
@@ -105,7 +105,7 @@ public class ArticleController extends HttpServlet {
 		article.setContentList(articleContentList);
 		
 		//articlePicture
-		articlePicture.setPictureNo(Long.toString(Math.round(Math.random() * 1000)));
+		articlePicture.setPictureNo(Long.toString(Math.round(Math.random() * 1000 + 1000)));
 		articlePicture.setIndex_pic(1);
 		articlePicture.setPicturePath("picturePath");
 		

@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 public class ArticleBean implements Serializable {
@@ -9,8 +8,8 @@ public class ArticleBean implements Serializable {
 	
 	private String articleNo;
 	private String author;
-	private Date postTime;
-	private Date lastUpdateTime;
+	private Long postTime;
+	private Long lastUpdateTime;
 	private String category;
 	private String title;
 	private List<ArticleContent> contentList;
@@ -35,19 +34,19 @@ public class ArticleBean implements Serializable {
 		this.author = author;
 	}
 
-	public Date getPostTime() {
+	public Long getPostTime() {
 		return postTime;
 	}
 
-	public void setPostTime(Date postTime) {
+	public void setPostTime(Long postTime) {
 		this.postTime = postTime;
 	}
 
-	public Date getLastUpdateTime() {
+	public Long getLastUpdateTime() {
 		return lastUpdateTime;
 	}
 
-	public void setLastUpdateTime(Date lastUpdateTime) {
+	public void setLastUpdateTime(Long lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 

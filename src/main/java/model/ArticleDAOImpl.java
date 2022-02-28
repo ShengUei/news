@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import util.ConnectionFactory;
@@ -36,9 +38,11 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		preState.setString(1, article.getArticleNo());
-		preState.setString(2, "Author");
-		preState.setDate(3, new java.sql.Date(article.getPostTime().getTime()));
+		preState.setString(2, article.getAuthor());
+		preState.setString(3, dateFormatter.format(new Date(article.getPostTime())));
 		preState.setString(4, article.getTitle());
 		preState.setString(5, article.getCategory());
 		preState.setString(6, contentList.get(0).getContentNo());
