@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+</head>
+
+<body>
+    <div id="articleList"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "ArticleList",
+                dataType: 'json',
+                success: function (json) {
+                    let articleList = document.querySelector("#articleList");
+                    let docFrag = document.createDocumentFragment();
+                    let div;
+                    let h1;
+                    let p;
+
+                    console.log(json);
+                    $.each(json, function(index, article) {
+                        div = document.createElement("div");
+                        div.id = "title";
+
+                        h1 = document.createElement("h1");
+                        h1.innerHTML = `${article.title}`;
+
+                        div.appendChild(h1);
+                        docFrag.appendChild(div);
+
+                        div = document.createElement("div");
+                        div.id = "content";
+
+                        p = document.createElement("p");
+                        p.innerHTML = `${article.contentList[0].paragraph}`
+
+                        div.appendChild(p);
+                        docFrag.appendChild(div);
+                    })
+
+                    articleList.appendChild(docFrag);
+
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

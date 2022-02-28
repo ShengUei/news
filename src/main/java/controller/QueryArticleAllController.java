@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,48 +14,53 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import model.ArticleBean;
-import model.HouseInfoDAOImpl;
+import model.ArticleDAOImpl;
 
 @WebServlet(
-		urlPatterns = {"/HouseInfo"},
+		urlPatterns = {"/ArticleList"},
 		initParams = {
-				@WebInitParam(name = "HouseInfo_Path", value = "/JSP/HouseInfo.jsp")
+				@WebInitParam(name = "ArticleList_Path", value = "articleList.html")
 		}
 		)
-public class HouseInfoController extends HttpServlet {
+public class QueryArticleAllController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private String HouseInfo_Path;
+	private String ArticleList_Path;
 	
 	@Override
 	public void init() throws ServletException{
-		HouseInfo_Path = getInitParameter("HouseInfo_Path");
+		ArticleList_Path = getInitParameter("ArticleList_Path");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HouseInfoDAOImpl dao = new HouseInfoDAOImpl();
+		List<ArticleBean> articleList;
+		ArticleDAOImpl dao = new ArticleDAOImpl();
 		
 		try {
-			List<ArticleBean> houseInfoList;
-			String search = request.getParameter("search");
+			articleList = dao.queryAll();
 			
-			if (request.getParameter("search") != "" && request.getParameter("search") != null) {
-				houseInfoList = dao.queryHouseInfoByH_type(search);
-			} else {
-				houseInfoList = dao.queryHouseInfo();
-			}
+			Gson gson = new Gson();
+			String str = gson.toJson(articleList);
 			
-			request.setAttribute("houseInfoList", houseInfoList);
+			PrintWriter out = response.getWriter();
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			
+			out.print(str);
+			
+//			response.sendRedirect(ArticleList_Path);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		request.getRequestDispatcher(HouseInfo_Path).forward(request, response);
 	}
 	
 //	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		doGet(request, response);
+//		
 //	}
 
 }

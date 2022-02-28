@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article</title>
 </head>
+
 <body>
-    
+    <div id="title">
+        <h1></h1>
+    </div>
+    <div id="content"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "QueryArticleByNumber?articleNo=1739",
+                dataType: 'json',
+                success: function (json) {
+                    let content = document.querySelector("#content");
+                    document.querySelector("#title > h1").innerHTML = `${json.title}`
+
+                    let docFrag = document.createDocumentFragment();
+                    let p;
+
+                    for (let content of json.contentList) {
+                        console.log(`${content}`);
+                        console.log(`${content.paragraph}`);
+                        p = document.createElement("p");
+                        p.innerHTML = `${content.paragraph}`;
+                        docFrag.appendChild(p);
+                    }
+
+                    content.appendChild(docFrag);
+
+
+
+                    // console.log(json);
+                    // $.each(json, function (article) {
+                    //     console.log(article);
+
+                    //     document.querySelector("#title > h1").innerHTML = `${article.title}`
+
+                        // let tr = document.createElement("tr");
+
+                        // let count = 1;
+                        // for (let key in houseInfo) {
+                        // 	let td = document.createElement("td");
+                        // 	td.innerHTML = `${houseInfo[key]}`;
+
+                        // 	tr.appendChild(td);
+
+                        // 	if (count == Object.keys(houseInfo).length) {
+                        // 		let tdButton = document.createElement("td");
+
+                        // 		tdButton.innerHTML = '<a class="btn btn-primary" href="#">更改</a>'
+                        // 							+ '<a class="btn btn-primary" href="#">刪除</a>';
+
+                        // 		tr.appendChild(tdButton);
+                        // 	}
+
+
+                        // 	count++;
+                        // }
+
+                        // docFrag.appendChild(tr);
+                        // document.querySelector("tbody").appendChild(docFrag);
+                    //     console.log("Hello World");
+                    // });
+                }
+            });
+        })
+    </script>
 </body>
+
 </html>

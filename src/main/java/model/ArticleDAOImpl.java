@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,8 +22,166 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 
 	@Override
 	public List<ArticleBean> queryAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ArticleBean> articleList = new ArrayList<ArticleBean>();
+		ArticleBean article;
+		
+		List<ArticleContent> contentList = new ArrayList<ArticleContent>();
+		ArticleContent content;
+		
+		List<ArticlePicture> pictureList = new ArrayList<ArticlePicture>();
+		ArticlePicture picture;
+		
+		String sqlStr = "SELECT * FROM article";
+		
+		PreparedStatement preState = conn.prepareStatement(sqlStr);
+		
+		ResultSet rs = preState.executeQuery();
+		
+		while (rs.next()) {
+			article = new ArticleBean();
+			
+			article.setArticleNo(rs.getString("articleNo"));
+			article.setAuthor(rs.getString("author"));
+			
+			try {
+				article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+			} catch (ParseException | SQLException e) {
+				e.printStackTrace();
+			}
+			
+			article.setTitle(rs.getString("title"));
+			article.setCategory(rs.getString("category"));
+			
+			//articleContent
+			sqlStr = "SELECT * FROM articleContent WHERE contentNo = ?";
+			
+			preState = conn.prepareStatement(sqlStr);
+			
+			preState.setString(1, rs.getString("contentNo"));
+			
+			ResultSet rsContent = preState.executeQuery();
+			
+			while (rsContent.next()) {
+				content = new ArticleContent();
+				
+				content.setContentNo(rsContent.getString("contentNo"));
+				content.setIndex_para(rsContent.getInt("index_para"));
+				content.setParagraph(rsContent.getString("paragraph"));
+				
+				contentList.add(content);
+			}
+			
+			article.setContentList(contentList);
+			
+			rsContent.close();
+			
+			//articlePicture
+			sqlStr = "SELECT * FROM articlePicture WHERE pictureNo = ?;";
+			
+			preState = conn.prepareStatement(sqlStr);
+			
+			preState.setString(1, rs.getString("pictureNo"));
+			
+			ResultSet rsPicture = preState.executeQuery();
+			
+			while (rsPicture.next()) {
+				picture = new ArticlePicture();
+				
+				picture.setPictureNo(rsPicture.getString("pictureNo"));
+				picture.setIndex_pic(rsPicture.getInt("index_pic"));
+				picture.setPicturePath(rsPicture.getString("picturePath"));
+				
+				pictureList.add(picture);
+			}
+			
+			article.setPictureList(pictureList);
+			
+			rsPicture.close();
+			
+			articleList.add(article);
+		}
+		
+		
+		rs.close();
+		preState.close();
+		
+		return articleList;
+	}
+	
+	@Override
+	public ArticleBean queryByNumber(String articleNo) throws SQLException {
+		ArticleBean article = new ArticleBean();
+		
+		List<ArticleContent> contentList = new ArrayList<ArticleContent>();
+		ArticleContent content;
+		
+		List<ArticlePicture> pictureList = new ArrayList<ArticlePicture>();
+		ArticlePicture picture;
+		
+		String sqlStr = "SELECT *"
+				+ " FROM article a JOIN articleContent c ON a.contentNo = c.contentNo"
+				+ " WHERE articleNo = ?;";
+		
+		PreparedStatement preState = conn.prepareStatement(sqlStr);
+		
+		preState.setString(1, articleNo);
+		
+		ResultSet rs = preState.executeQuery();
+		
+		int count = 0;
+		while (rs.next()) {
+			if (count == 0) {
+				article.setArticleNo(rs.getString("articleNo"));
+				article.setAuthor(rs.getString("author"));
+				
+				try {
+					article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+				} catch (ParseException | SQLException e) {
+					e.printStackTrace();
+				}
+				
+				article.setTitle(rs.getString("title"));
+				article.setCategory(rs.getString("category"));
+			}
+			
+			content = new ArticleContent();
+			
+			content.setContentNo(rs.getString("contentNo"));
+			content.setIndex_para(rs.getInt("index_para"));
+			content.setParagraph(rs.getString("paragraph"));
+			
+			contentList.add(content);
+			count++;
+		}
+		
+		article.setContentList(contentList);
+		
+		sqlStr = "SELECT *"
+				+ " FROM article a JOIN articlePicture p ON a.pictureNo = p.pictureNo"
+				+ " WHERE articleNo = ?;";
+		
+		preState = conn.prepareStatement(sqlStr);
+		
+		preState.setString(1, articleNo);
+		
+		rs = preState.executeQuery();
+		
+		while (rs.next()) {
+			picture = new ArticlePicture();
+			
+			picture.setPictureNo(rs.getString("pictureNo"));
+			picture.setIndex_pic(rs.getInt("index_pic"));
+			picture.setPicturePath(rs.getString("picturePath"));
+			
+			pictureList.add(picture);
+		}
+		
+		article.setPictureList(pictureList);
+		
+		rs.close();
+		preState.close();
+		
+		return article;
 	}
 
 	@Override

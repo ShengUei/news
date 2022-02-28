@@ -24,17 +24,17 @@ import model.ArticlePicture;
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
-				@WebInitParam(name = "HouseInfo_Path", value = "HouseInfo.html")
+				@WebInitParam(name = "CreateArticle_Path", value = "newArticle.html")
 		}
 		)
 public class CreateArticleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private String HouseInfo_Path;
+	private String CreateArticle_Path;
 	
 	@Override
 	public void init() throws ServletException{
-		HouseInfo_Path = getInitParameter("HouseInfo_Path");
+		CreateArticle_Path = getInitParameter("CreateArticle_Path");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -121,7 +121,7 @@ public class CreateArticleController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("/news/newArticle.html");
+		response.sendRedirect(CreateArticle_Path);
 	}
 
 }
