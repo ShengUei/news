@@ -7,8 +7,6 @@ public interface GenericDAO<T> {
 	
 	public List<T> queryAll() throws SQLException;
 	
-	public T queryByNumber(String number) throws SQLException;
-	
 	public void insertData(T javaBean) throws SQLException;
 	
 	public void updateData(T javaBean) throws SQLException;

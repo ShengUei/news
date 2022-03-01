@@ -21,25 +21,47 @@
                     let articleList = document.querySelector("#articleList");
                     let docFrag = document.createDocumentFragment();
                     let div;
+                    let a;
                     let h1;
+                    let h3;
+                    let h4;
                     let p;
 
-                    console.log(json);
+                    // console.log(json);
                     $.each(json, function(index, article) {
                         div = document.createElement("div");
                         div.id = "title";
 
+                        a = document.createElement("a");
+                        a.href = `Article?articleNo=${article.articleNo}`;
+
                         h1 = document.createElement("h1");
                         h1.innerHTML = `${article.title}`;
 
-                        div.appendChild(h1);
+                        a.appendChild(h1);
+                        div.appendChild(a);
+                        docFrag.appendChild(div);
+
+                        div = document.createElement("div");
+                        div.id = "articleInfo";
+
+                        h3 = document.createElement("h3");
+                        h3.innerHTML = `作者: ${article.author}`;
+
+                        div.appendChild(h3);
+
+                        h4 = document.createElement("h4");
+                        let postTime = new Date(article.postTime);
+                        h4.innerHTML = `發文時間: ${postTime}`;
+
+                        div.appendChild(h4);
                         docFrag.appendChild(div);
 
                         div = document.createElement("div");
                         div.id = "content";
 
                         p = document.createElement("p");
-                        p.innerHTML = `${article.contentList[0].paragraph}`
+                        p.innerHTML = `${article.contentList[0].paragraph}`;
 
                         div.appendChild(p);
                         docFrag.appendChild(div);

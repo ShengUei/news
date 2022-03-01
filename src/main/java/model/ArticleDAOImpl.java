@@ -25,13 +25,13 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticleBean> articleList = new ArrayList<ArticleBean>();
 		ArticleBean article;
 		
-		List<ArticleContent> contentList = new ArrayList<ArticleContent>();
+		List<ArticleContent> contentList;
 		ArticleContent content;
 		
-		List<ArticlePicture> pictureList = new ArrayList<ArticlePicture>();
+		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article";
+		String sqlStr = "SELECT * FROM article ORDER BY postTime";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -44,7 +44,10 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			article.setAuthor(rs.getString("author"));
 			
 			try {
-				article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+				article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+				if (rs.getString("lastUpdateTime") != null) {
+					article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("lastUpdateTime")).getTime());
+				}
 			} catch (ParseException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -53,6 +56,8 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			article.setCategory(rs.getString("category"));
 			
 			//articleContent
+			contentList = new ArrayList<ArticleContent>();
+			
 			sqlStr = "SELECT * FROM articleContent WHERE contentNo = ?";
 			
 			preState = conn.prepareStatement(sqlStr);
@@ -76,6 +81,8 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			rsContent.close();
 			
 			//articlePicture
+			pictureList = new ArrayList<ArticlePicture>();
+			
 			sqlStr = "SELECT * FROM articlePicture WHERE pictureNo = ?;";
 			
 			preState = conn.prepareStatement(sqlStr);
@@ -108,7 +115,6 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		return articleList;
 	}
 	
-	@Override
 	public ArticleBean queryByNumber(String articleNo) throws SQLException {
 		ArticleBean article = new ArticleBean();
 		
@@ -135,7 +141,10 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 				article.setAuthor(rs.getString("author"));
 				
 				try {
-					article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+					article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+					if (rs.getString("lastUpdateTime") != null) {
+						article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("lastUpdateTime")).getTime());
+					}
 				} catch (ParseException | SQLException e) {
 					e.printStackTrace();
 				}

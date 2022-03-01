@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -20,10 +21,10 @@ import model.ArticleBean;
 import model.ArticleDAOImpl;
 
 @WebServlet(
-		urlPatterns = {"/QueryArticleByNumber", "/QueryArticleByNumber?*"},
-		initParams = {
-				@WebInitParam(name = "QueryArticleByNumber_Path", value = "article.html")
-		}
+		urlPatterns = {"/QueryArticleByNumber"}
+//		initParams = {
+//				@WebInitParam(name = "QueryArticleByNumber_Path", value = "article.html")
+//		}
 		)
 public class QueryArticleByNumberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,11 +37,14 @@ public class QueryArticleByNumberController extends HttpServlet {
 //	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		ArticleBean article;
 		ArticleDAOImpl dao = new ArticleDAOImpl();
 		
+		HttpSession session = request.getSession();
+		
 		try {
-			article = dao.queryByNumber(request.getParameter("articleNo"));
+			article = dao.queryByNumber((String) session.getAttribute("articleNo"));
 			
 			Gson gson = new Gson();
 			String str = gson.toJson(article);
@@ -50,6 +54,9 @@ public class QueryArticleByNumberController extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			
 			out.print(str);
+			
+			session.removeAttribute("articleNo");
+			
 			out.flush();
 			out.close();
 			
