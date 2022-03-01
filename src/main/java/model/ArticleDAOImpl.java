@@ -31,7 +31,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article ORDER BY postTime";
+		String sqlStr = "SELECT * FROM article ORDER BY postTime DESC;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -58,7 +58,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			//articleContent
 			contentList = new ArrayList<ArticleContent>();
 			
-			sqlStr = "SELECT * FROM articleContent WHERE contentNo = ?";
+			sqlStr = "SELECT * FROM articleContent WHERE contentNo = ?;";
 			
 			preState = conn.prepareStatement(sqlStr);
 			

@@ -3,12 +3,8 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,20 +17,9 @@ import model.ArticleBean;
 import model.ArticleDAOImpl;
 
 @WebServlet(
-		urlPatterns = {"/QueryArticleByNumber"}
-//		initParams = {
-//				@WebInitParam(name = "QueryArticleByNumber_Path", value = "article.html")
-//		}
-		)
+		urlPatterns = {"/QueryArticleByNumber"})
 public class QueryArticleByNumberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-//	private String QueryArticleByNumber_Path;
-//	
-//	@Override
-//	public void init() throws ServletException{
-//		QueryArticleByNumber_Path = getInitParameter("QueryArticleByNumber_Path");
-//	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
