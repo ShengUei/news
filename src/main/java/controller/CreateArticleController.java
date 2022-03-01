@@ -12,11 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.ArticleBean;
 import model.ArticleContent;
 import model.ArticleDAOImpl;
 import model.ArticlePicture;
+import model.MemberBean;
 
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
@@ -39,6 +41,8 @@ public class CreateArticleController extends HttpServlet {
 //	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
 		ArticleBean article = new ArticleBean();
 		
 		List<ArticleContent> articleContentList = new ArrayList<ArticleContent>();
@@ -49,7 +53,16 @@ public class CreateArticleController extends HttpServlet {
 		//article
 		String articleNo = (Long.toString(Math.round(Math.random() * 1000) + 1000));
 		article.setArticleNo(articleNo);
-		article.setAuthor("accountTest");
+		
+		MemberBean member = (MemberBean) session.getAttribute("member");
+		String username;
+		if (member.getUsername() != null) {
+			username = member.getUsername();
+		} else {
+			username = member.getAccount();
+		}
+		article.setAuthor(username);
+		
 		article.setPostTime(new Date().getTime());
 		article.setTitle(request.getParameter("title"));
 		article.setCategory(request.getParameter("category"));

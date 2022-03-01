@@ -39,6 +39,7 @@ public class SignInMemberController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
+		request.changeSessionId();
 		
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");

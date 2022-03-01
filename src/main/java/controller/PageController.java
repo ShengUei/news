@@ -31,7 +31,7 @@ public class PageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		System.out.println(request.getRequestURI());
 		
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
 		
 		if (request.getRequestURI().equals("/news/")) {
 			response.sendRedirect(ArticleList_Path);
