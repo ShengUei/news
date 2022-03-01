@@ -6,14 +6,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import util.ConnectionFactory;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 public class MemberDAOImpl implements GenericDAO<MemberBean>{
-	
+	private DataSource dataSource;
 	private Connection conn;
 	
 	public MemberDAOImpl() {
-		this.conn = ConnectionFactory.getConnection();
+		try {
+			Context initialContext = new InitialContext();
+			Context envContext = (Context) initialContext.lookup("java:/comp/env");
+			dataSource = (DataSource) envContext.lookup("jdbc/SideProject1_News");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -23,6 +32,8 @@ public class MemberDAOImpl implements GenericDAO<MemberBean>{
 	}
 	
 	public MemberBean queryByName(String account) throws SQLException {
+		conn = dataSource.getConnection();
+		
 		MemberBean member = new MemberBean();
 		
 		String sqlStr = "SELECT * FROM member WHERE account = ?;";
@@ -42,13 +53,16 @@ public class MemberDAOImpl implements GenericDAO<MemberBean>{
 		
 		rs.close();
 		preState.close();
+		conn.close();
 		
 		return member;
 	}
 
 	@Override
 	public void insertData(MemberBean member) throws SQLException {
-		String sqlStr = "INSERT INTO member('username', 'account', 'hashed_pwd', 'salt') VALUES(?, ?, ?, ?)";
+		conn = dataSource.getConnection();
+		
+		String sqlStr = "INSERT INTO member(username, account, hashed_pwd, salt) VALUES(?, ?, ?, ?)";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -60,6 +74,7 @@ public class MemberDAOImpl implements GenericDAO<MemberBean>{
 		preState.executeUpdate();
 		
 		preState.close();
+		conn.close();
 		
 	}
 

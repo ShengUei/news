@@ -10,18 +10,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import util.ConnectionFactory;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 
 public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
-	
+	private DataSource dataSource;
 	private Connection conn;
 	
 	public ArticleDAOImpl() {
-		this.conn = ConnectionFactory.getConnection();
+		try {
+			Context initialContext = new InitialContext();
+			Context envContext = (Context) initialContext.lookup("java:/comp/env");
+			dataSource = (DataSource) envContext.lookup("jdbc/SideProject1_News");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public List<ArticleBean> queryAll() throws SQLException {
+		conn = dataSource.getConnection();
+		
 		List<ArticleBean> articleList = new ArrayList<ArticleBean>();
 		ArticleBean article;
 		
@@ -111,11 +123,14 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		
 		rs.close();
 		preState.close();
+		conn.close();
 		
 		return articleList;
 	}
 	
 	public ArticleBean queryByNumber(String articleNo) throws SQLException {
+		conn = dataSource.getConnection();
+		
 		ArticleBean article = new ArticleBean();
 		
 		List<ArticleContent> contentList = new ArrayList<ArticleContent>();
@@ -189,12 +204,14 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		
 		rs.close();
 		preState.close();
+		conn.close();
 		
 		return article;
 	}
 
 	@Override
 	public void insertData(ArticleBean article) throws SQLException {
+		conn = dataSource.getConnection();
 		
 		List<ArticleContent> contentList = article.getContentList();
 		List<ArticlePicture> pictureList = article.getPictureList();
@@ -253,6 +270,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		preState.executeBatch();
 		
 		preState.close();
+		conn.close();
 	}
 
 	@Override
