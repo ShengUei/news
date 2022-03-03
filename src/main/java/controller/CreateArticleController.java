@@ -3,16 +3,20 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import model.ArticleBean;
 import model.ArticleContent;
@@ -20,6 +24,7 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 import model.MemberBean;
 
+@MultipartConfig(location = "C:\\Users\\Student\\Desktop\\images")
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
@@ -47,8 +52,7 @@ public class CreateArticleController extends HttpServlet {
 		
 		List<ArticleContent> articleContentList = new ArrayList<ArticleContent>();
 		
-		ArticlePicture articlePicture = new ArticlePicture();
-		List<ArticlePicture> articlePictureList = new ArrayList<ArticlePicture>();
+		
 		
 		//article
 		String articleNo = (Long.toString(Math.round(Math.random() * 1000) + 1000));
@@ -61,7 +65,7 @@ public class CreateArticleController extends HttpServlet {
 		} else {
 			username = member.getAccount();
 		}
-		article.setAuthor(username);
+		article.setAuthor(member.getAccount());
 		
 		article.setPostTime(new Date().getTime());
 		article.setTitle(request.getParameter("title"));
@@ -86,11 +90,25 @@ public class CreateArticleController extends HttpServlet {
 		article.setContentList(articleContentList);
 		
 		//articlePicture
-		articlePicture.setPictureNo(Long.toString(Math.round(Math.random() * 1000 + 1000)));
-		articlePicture.setIndex_pic(1);
-		articlePicture.setPicturePath("picturePath");
+		Collection<Part> pictures = request.getParts();
+		Object[] array = pictures.stream().filter(part -> part.getName().startsWith("pictures")).toArray();
+		String submittedFileName;
+		String pictureNo = Long.toString(Math.round(Math.random() * 1000) + 1000);
+		ArticlePicture articlePicture;
+		List<ArticlePicture> articlePictureList = new ArrayList<ArticlePicture>();
 		
-		articlePictureList.add(articlePicture);
+		for (int i = 0; i < array.length; i++) {
+			articlePicture = new ArticlePicture();
+			
+			submittedFileName = ((Part) array[i]).getSubmittedFileName();
+			((Part) array[i]).write(submittedFileName);
+			
+			articlePicture.setPictureNo(pictureNo);
+			articlePicture.setIndex_pic(i + 1);
+			articlePicture.setPicturePath(submittedFileName);
+			
+			articlePictureList.add(articlePicture);
+		}
 		
 		article.setPictureList(articlePictureList);
 		

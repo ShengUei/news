@@ -8,7 +8,7 @@
 </head>
 <body>
     <div>
-        <form action="CreateArticle" method="post">
+        <form action="CreateArticle" method="post" enctype="multipart/form-data">
             <div>
                 <label for="title">文章標題</label>
                 <input type="text" id="title" name="title" size="30" maxlength="100">
@@ -25,7 +25,14 @@
                 <textarea name="content" id="content" cols="30" rows="10"></textarea>
             </div>
             <div>
+                <label for="pictures">圖片</label>
+                <input type="file" id="pictures" name="pictures"  multiple  accept="image/png, image/jpeg">
+            </div>
+            <div>
                 <input type="submit" value="送出">
+            </div>
+            <div>
+                <input type="reset" value="重設">
             </div>
         </form>
     </div>

@@ -40,8 +40,6 @@ public class QueryArticleByNumberController extends HttpServlet {
 			
 			out.print(str);
 			
-			session.removeAttribute("articleNo");
-			
 			out.flush();
 			out.close();
 			
