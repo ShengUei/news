@@ -15,45 +15,9 @@
     <div id="articleList"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="./JS/SignInCheck.js"></script>
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: "SignInCheck",
-                dataType: 'json',
-                success: function (memberJson) {
-                    let memberDiv = document.querySelector("#member");
-                    let docFrag = document.createDocumentFragment();
-                    let p;
-                    let a;
-
-                    if (memberJson != null) {
-                        let username = `${memberJson.username}`;
-                        p = document.createElement("p");
-                        if (username != null) {
-                            p.innerHTML = `${username} 您好`;
-                        } else {
-                            p.innerHTML = `${memberJson.account} 您好`;
-                        }
-                        docFrag.appendChild(p);
-
-                    } else {
-                        a = document.createElement("a");
-                        a.href = "signUpMember.html";
-                        a.className = "btn btn-primary";
-                        a.innerHTML = "Sign Up"
-                        docFrag.appendChild(a);
-
-                        a = document.createElement("a");
-                        a.href = "signInMember.html";
-                        a.className = "btn btn-primary";
-                        a.innerHTML = "Sign In"
-                        docFrag.appendChild(a);
-                    }
-
-                    memberDiv.appendChild(docFrag);
-
-                }
-            });
             $.ajax({
                 url: "ArticleList",
                 dataType: 'json',
