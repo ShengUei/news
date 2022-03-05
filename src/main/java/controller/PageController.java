@@ -45,8 +45,12 @@ public class PageController extends HttpServlet {
 		if (request.getRequestURI().equals("/news/")) {
 			response.sendRedirect(index_Path);
 		} else if (request.getRequestURI().equals("/news/Article")) {
-			session.setAttribute("articleNo", request.getParameter("articleNo"));
-			response.sendRedirect(Article_Path);
+			if (request.getParameter("articleNo") != null) {
+				session.setAttribute("articleNo", request.getParameter("articleNo"));
+				response.sendRedirect(Article_Path);
+			} else {
+				response.sendRedirect(index_Path);
+			}
 		} else if (request.getRequestURI().equals("/news/SignIn")) {
 			response.sendRedirect(SignIn_Path);
 		} else if (request.getRequestURI().equals("/news/SignOut")) {

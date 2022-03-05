@@ -24,7 +24,7 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 import model.MemberBean;
 
-@MultipartConfig(location = "C:\\SideProject1_news_images")
+@MultipartConfig(location = "C:\\eclipse-workspace\\SideProject1-workspace\\news\\src\\main\\webapp\\images")
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
