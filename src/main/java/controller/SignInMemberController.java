@@ -28,6 +28,7 @@ public class SignInMemberController extends HttpServlet {
 	private String SignInSuccess_Path;
 	private String SignInFailure_Path;
 	private String SignOut_Path;
+	private boolean isMember;
 	private MemberDAOImpl memberDAO;
 	
 	@Override
@@ -55,6 +56,8 @@ public class SignInMemberController extends HttpServlet {
 			
 			if ((password.hashCode() + Integer.parseInt(member.getSalt())) == Integer.parseInt(member.getHashed_pwd())) {
 				session.setAttribute("member", member);
+				isMember = true;
+				session.setAttribute("isMember", isMember);
 				response.sendRedirect(SignInSuccess_Path);
 			} else {
 				response.sendRedirect(SignInFailure_Path);

@@ -14,39 +14,129 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="./CSS/headers.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="./CSS/blog.css" rel="stylesheet">
 </head>
 
 <body>
-    <div>
-        <form action="CreateArticle" method="post" enctype="multipart/form-data">
-            <div>
-                <label for="title">文章標題</label>
-                <input type="text" id="title" name="title" size="30" maxlength="100">
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-between align-items-center">
+                <div class="col-4 text-center">
+                    <a class="blog-header-logo text-dark" href="/news/">News</a>
+                </div>
+                <div class="col-3 d-flex justify-content-end align-items-center" id="member">
+                </div>
             </div>
-            <div>
-                <label for="category">
-                    <input type="radio" id="category" name="category" value="I">國際
-                    <input type="radio" id="category" name="category" value="L">地方
-                    <input type="radio" id="category" name="category" value="E">經濟
-                </label>
-            </div>
-            <div>
-                <label for="content">內容</label>
-                <textarea name="content" id="content" cols="30" rows="10"></textarea>
-            </div>
-            <div>
-                <label for="pictures">圖片</label>
-                <input type="file" id="pictures" name="pictures" multiple accept="image/png, image/jpeg">
-            </div>
-            <div>
-                <input type="submit" value="送出">
-            </div>
-            <div>
-                <input type="reset" value="重設">
-            </div>
-        </form>
+        </header>
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+                <a class="p-2 link-secondary" href="#">World</a>
+                <a class="p-2 link-secondary" href="#">U.S.</a>
+                <a class="p-2 link-secondary" href="#">Technology</a>
+                <a class="p-2 link-secondary" href="#">Design</a>
+                <a class="p-2 link-secondary" href="#">Culture</a>
+                <a class="p-2 link-secondary" href="#">Business</a>
+                <a class="p-2 link-secondary" href="#">Politics</a>
+                <a class="p-2 link-secondary" href="#">Opinion</a>
+                <a class="p-2 link-secondary" href="#">Science</a>
+                <a class="p-2 link-secondary" href="#">Health</a>
+                <a class="p-2 link-secondary" href="#">Style</a>
+                <a class="p-2 link-secondary" href="#">Travel</a>
+            </nav>
+        </div>
     </div>
 
+    <div class="container">
+        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="mb-3 text-center">
+                    <label for="validationCustom01" class="form-label">文章標題</label>
+                    <input type="text" class="form-control" id="validationCustom01" placeholder="文章標題" name="title"
+                        maxlength="100" required>
+                    <div class="valid-feedback">
+                        文章標題不能空白
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="mb-3 text-center">
+                    <div class="form-label">新聞分類</div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="category" id="inlineRadio1" value="I" checked>
+                        <label class="form-check-label" for="inlineRadio1">國際</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="category" id="inlineRadio2" value="L">
+                        <label class="form-check-label" for="inlineRadio2">地方</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="category" id="inlineRadio3" value="E">
+                        <label class="form-check-label" for="inlineRadio3">經濟</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="mb-3 text-center">
+                    <label for="formFileMultiple" class="form-label">上傳圖片</label>
+                    <input class="form-control" type="file" name="pictures" id="formFileMultiple" multiple>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="mb-3 text-center">
+                    <label for="validationTextarea" class="form-label">文章內容</label>
+                    <textarea class="form-control" style="width:1296px;height:800px; resize: none;" id="validationTextarea"
+                        name="content" placeholder="請輸入文章內容" required></textarea>
+                    <div class="invalid-feedback">
+                        文章內容不能空白
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="mb-3 text-center">
+                    <button class="btn btn-primary" type="submit">送出</button>
+                    <button class="btn btn-danger" type="reset">重設</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <footer class="blog-footer">
+        <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a
+                href="https://twitter.com/mdo">@mdo</a>.</p>
+        <p>
+            <a href="#">Back to top</a>
+        </p>
+    </footer>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 
     <script src="./JS/SignInCheck.js"></script>
 </body>
