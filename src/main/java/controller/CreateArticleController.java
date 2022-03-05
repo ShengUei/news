@@ -28,24 +28,30 @@ import model.MemberBean;
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
-				@WebInitParam(name = "CreateArticle_Path", value = "newArticle.html")
+				@WebInitParam(name = "CreateArticle_Path", value = "createArticle.html"),
+				@WebInitParam(name = "CreateArticleSuccess_Path", value = "index.html"),
+				@WebInitParam(name = "CreateArticleFailure_Path", value = "createArticle.html"),
 		}
 		)
 public class CreateArticleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String CreateArticle_Path;
+	private String CreateArticleSuccess_Path;
+	private String CreateArticleFailure_Path;
 	private ArticleDAOImpl articleDAO;
 	
 	@Override
 	public void init() throws ServletException{
 		CreateArticle_Path = getInitParameter("CreateArticle_Path");
+		CreateArticleSuccess_Path = getInitParameter("CreateArticleSuccess_Path");
+		CreateArticleFailure_Path = getInitParameter("CreateArticleFailure_Path");
 		articleDAO = (ArticleDAOImpl) getServletContext().getAttribute("articleDAO");
 	}
 	
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect(CreateArticle_Path);
+	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -53,8 +59,6 @@ public class CreateArticleController extends HttpServlet {
 		ArticleBean article = new ArticleBean();
 		
 		List<ArticleContent> articleContentList = new ArrayList<ArticleContent>();
-		
-		
 		
 		//article
 		String articleNo = (Long.toString(Math.round(Math.random() * 1000) + 1000));
@@ -111,11 +115,12 @@ public class CreateArticleController extends HttpServlet {
 		//InsertData
 		try {
 			articleDAO.insertData(article);
+			response.sendRedirect(CreateArticleSuccess_Path);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			response.sendRedirect(CreateArticleFailure_Path);
 		}
 		
-		response.sendRedirect(CreateArticle_Path);
 	}
 
 }

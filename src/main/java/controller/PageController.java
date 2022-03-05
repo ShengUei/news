@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 				@WebInitParam(name = "Article_Path", value = "article.html"),
 				@WebInitParam(name = "SignIn_Path", value = "signIn.html"),
 				@WebInitParam(name = "SignOut_Path", value = "/SignOutMember"),
-				@WebInitParam(name = "SignUp_Path", value = "/CreateMember")
+				@WebInitParam(name = "SignUp_Path", value = "signUp.html")
 		}
 		)
 public class PageController extends HttpServlet {
@@ -52,7 +52,7 @@ public class PageController extends HttpServlet {
 		} else if (request.getRequestURI().equals("/news/SignOut")) {
 			request.getRequestDispatcher(SignOut_Path).forward(request, response);
 		} else if (request.getRequestURI().equals("/news/SignUp")) {
-			request.getRequestDispatcher(SignUp_Path).forward(request, response);
+			response.sendRedirect(SignUp_Path);
 		}
 	}
 	

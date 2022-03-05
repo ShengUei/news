@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.MemberBean;
 import model.MemberDAOImpl;
@@ -53,6 +54,11 @@ public class CreateMemberController extends HttpServlet {
 		
 		try {
 			memberDAO.insertData(member);
+			
+			HttpSession session = request.getSession(true);
+			request.changeSessionId();
+			session.setAttribute("member", member);
+			
 			response.sendRedirect(SignUpSuccess_Path);
 		} catch (SQLException e) {
 			e.printStackTrace();

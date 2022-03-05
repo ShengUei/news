@@ -19,7 +19,7 @@ import model.MemberDAOImpl;
 		initParams = {
 				@WebInitParam(name = "SignInSuccess_Path", value = "index.html"),
 				@WebInitParam(name = "SignInFailure_Path", value = "signIn.html"),
-				@WebInitParam(name = "SignOut_Path", value = "article.html"),
+				@WebInitParam(name = "SignOut_Path", value = "index.html"),
 		}
 		)
 public class SignInMemberController extends HttpServlet {
