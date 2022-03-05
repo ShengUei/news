@@ -12,19 +12,19 @@ import javax.servlet.http.HttpSession;
 @WebServlet(
 		urlPatterns = {"", "/Article"},
 		initParams = {
-				@WebInitParam(name = "ArticleList_Path", value = "articleList.html"),
+				@WebInitParam(name = "index_Path", value = "index.html"),
 				@WebInitParam(name = "Article_Path", value = "article.html")
 		}
 		)
 public class PageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private String ArticleList_Path;
+	private String index_Path;
 	private String Article_Path;
 	
 	@Override
 	public void init() throws ServletException{
-		ArticleList_Path = getInitParameter("ArticleList_Path");
+		index_Path = getInitParameter("index_Path");
 		Article_Path = getInitParameter("Article_Path");
 	}
        
@@ -34,7 +34,7 @@ public class PageController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if (request.getRequestURI().equals("/news/")) {
-			response.sendRedirect(ArticleList_Path);
+			response.sendRedirect(index_Path);
 		} else if (request.getRequestURI().equals("/news/Article")) {
 			session.setAttribute("articleNo", request.getParameter("articleNo"));
 			response.sendRedirect(Article_Path);
