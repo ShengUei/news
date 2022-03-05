@@ -10,17 +10,17 @@ $.ajax({
         let a;
         let h5;
         let p;
-        let hr;
 
         // console.log(json);
         $.each(json, function(index, article) {
             div = document.createElement("div");
             div.id = "article";
-            div.className = "media position-relative";
+            div.className = "media d-flex position-relative";
 
             img = document.createElement("img");
-            img.src = "...";
-            img.className = "mr-3";
+            img.src = `./images/${article.pictureList[0].picturePath}`;
+            img.className = "flex-shrink-0 me-3";
+            img.height = "240";
 
             div.appendChild(img);
 
@@ -51,10 +51,7 @@ $.ajax({
             a.href = `Article?articleNo=${article.articleNo}`;
 
             div_body.appendChild(a);
-
-            hr = document.createElement("hr");
-            div_body.appendChild(hr);
-
+            
             div.appendChild(div_body);
 
             docFrag.appendChild(div);
