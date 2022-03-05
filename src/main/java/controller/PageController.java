@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(
-		urlPatterns = {"", "/Article"},
+		urlPatterns = {"", "/Article", "/SignIn", "/SignOut", "/SignUp"},
 		initParams = {
 				@WebInitParam(name = "index_Path", value = "index.html"),
-				@WebInitParam(name = "Article_Path", value = "article.html")
+				@WebInitParam(name = "Article_Path", value = "article.html"),
+				@WebInitParam(name = "SignIn_Path", value = "signIn.html"),
+				@WebInitParam(name = "SignOut_Path", value = "SignOutMember"),
 		}
 		)
 public class PageController extends HttpServlet {
@@ -21,11 +23,15 @@ public class PageController extends HttpServlet {
 	
 	private String index_Path;
 	private String Article_Path;
+	private String SignIn_Path;
+	private String SignOut_Path;
 	
 	@Override
 	public void init() throws ServletException{
 		index_Path = getInitParameter("index_Path");
 		Article_Path = getInitParameter("Article_Path");
+		SignIn_Path = getInitParameter("SignIn_Path");
+		SignOut_Path = getInitParameter("SignOut_Path");
 	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,6 +44,12 @@ public class PageController extends HttpServlet {
 		} else if (request.getRequestURI().equals("/news/Article")) {
 			session.setAttribute("articleNo", request.getParameter("articleNo"));
 			response.sendRedirect(Article_Path);
+		} else if (request.getRequestURI().equals("/news/SignIn")) {
+			response.sendRedirect(SignIn_Path);
+		} else if (request.getRequestURI().equals("/news/SignOut")) {
+			request.getRequestDispatcher(SignOut_Path).forward(request, response);
+		} else if (request.getRequestURI().equals("/news/SignUp")) {
+			
 		}
 	}
 	

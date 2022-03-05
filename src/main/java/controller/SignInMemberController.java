@@ -15,10 +15,11 @@ import model.MemberBean;
 import model.MemberDAOImpl;
 
 @WebServlet(
-		urlPatterns = {"/SignInMember"},
+		urlPatterns = {"/SignInMember", "/SignOutMember"},
 		initParams = {
-				@WebInitParam(name = "SignInSuccess_Path", value = "articleList.html"),
-				@WebInitParam(name = "SignInFailure_Path", value = "signInMember.html")
+				@WebInitParam(name = "SignInSuccess_Path", value = "index.html"),
+				@WebInitParam(name = "SignInFailure_Path", value = "signIn.html"),
+				@WebInitParam(name = "SignOut_Path", value = "article.html"),
 		}
 		)
 public class SignInMemberController extends HttpServlet {
@@ -26,16 +27,19 @@ public class SignInMemberController extends HttpServlet {
 	
 	private String SignInSuccess_Path;
 	private String SignInFailure_Path;
+	private String SignOut_Path;
 	
 	@Override
 	public void init() throws ServletException{
 		SignInSuccess_Path = getInitParameter("SignInSuccess_Path");
 		SignInFailure_Path = getInitParameter("SignInFailure_Path");
+		SignOut_Path = getInitParameter("SignOut_Path");
 	}
 	
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().invalidate();
+		response.sendRedirect(SignOut_Path);
+	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(true);

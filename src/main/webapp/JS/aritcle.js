@@ -10,18 +10,18 @@ $.ajax({
         let p;
         let hr;
 
-        div = document.createDocumentFragment("div");
+        div = document.createElement("div");
 
-        h2 = document.createDocumentFragment("h2");
+        h2 = document.createElement("h2");
         h2.className = "blog-post-title";
         h2.innerHTML = `${json.title}`;
 
         div.appendChild(h2);
 
-        p = document.createDocumentFragment("p");
+        p = document.createElement("p");
         p.className = "blog-post-meta";
         let postTime = new Date(json.postTime);
-        p.innerHTML = `作者: ${article.author}<br>發文時間: ${postTime}`;
+        p.innerHTML = `作者: ${json.author}<br>發文時間: ${postTime}`;
 
         div.appendChild(p);
 

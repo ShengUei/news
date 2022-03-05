@@ -17,7 +17,7 @@ import model.MemberDAOImpl;
 @WebServlet(
 		urlPatterns = {"/CreateMember"},
 		initParams = {
-				@WebInitParam(name = "SignUpSuccess_Path", value = "articleList.html"),
+				@WebInitParam(name = "SignUpSuccess_Path", value = "index.html"),
 				@WebInitParam(name = "SignUpFailure_Path", value = "signUpMember.html")
 		}
 		)

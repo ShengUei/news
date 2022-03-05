@@ -15,19 +15,27 @@ $.ajax({
             } else {
                 p.innerHTML = `${memberJson.account} 您好`;
             }
+
+            a = document.createElement(a);
+            a.className = "btn btn-primary";
+            a.href = "/SignOut";
+            a.innerHTML = "Sign Out";
+
+            docFrag.appendChild(a);
+
             docFrag.appendChild(p);
 
         } else {
             a = document.createElement("a");
-            a.href = "signIn.html";
+            a.href = "/SignIn";
             a.className = "btn btn-outline-primary me-2";
-            a.innerHTML = "Sign In"
+            a.innerHTML = "Sign In";
             docFrag.appendChild(a);
 
             a = document.createElement("a");
-            a.href = "signUpMember.html";
+            a.href = "/SignUp";
             a.className = "btn btn-primary";
-            a.innerHTML = "Sign Up"
+            a.innerHTML = "Sign Up";
             docFrag.appendChild(a);
         }
 
