@@ -25,6 +25,12 @@ $.ajax({
 
         div.appendChild(p);
 
+        for (let picture of json.pictureList) {
+            img = document.createElement("img");
+            img.src = `./images/${picture.picturePath}`;
+            div.appendChild(img);
+        }
+
         for (let content of json.contentList) {
             p = document.createElement("p");
             p.innerHTML = `${content.paragraph}`;

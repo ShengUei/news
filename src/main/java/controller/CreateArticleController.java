@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -23,8 +24,7 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 import model.MemberBean;
 
-//@MultipartConfig(location = "C:\\Users\\Student\\Desktop\\images")
-@MultipartConfig(location = "C:\\Users\\wayne\\Desktop\\images")
+@MultipartConfig(location = "C:\\eclipse-workspace\\SideProject1-workspace\\news\\src\\main\\webapp\\images")
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
@@ -93,6 +93,7 @@ public class CreateArticleController extends HttpServlet {
 		Collection<Part> pictures = request.getParts();
 		Object[] array = pictures.stream().filter(part -> part.getName().startsWith("pictures")).toArray();
 		String submittedFileName;
+		String ext;
 		String pictureNo = Long.toString(Math.round(Math.random() * 1000) + 1000);
 		ArticlePicture articlePicture;
 		List<ArticlePicture> articlePictureList = new ArrayList<ArticlePicture>();
@@ -101,11 +102,13 @@ public class CreateArticleController extends HttpServlet {
 			articlePicture = new ArticlePicture();
 			
 			submittedFileName = ((Part) array[i]).getSubmittedFileName();
-			((Part) array[i]).write(submittedFileName);
+			ext = submittedFileName.substring(submittedFileName.lastIndexOf("."));
+			
+			((Part) array[i]).write(String.format("%s%s", Instant.now().toEpochMilli(), ext));
 			
 			articlePicture.setPictureNo(pictureNo);
 			articlePicture.setIndex_pic(i + 1);
-			articlePicture.setPicturePath(submittedFileName);
+			articlePicture.setPicturePath(String.format("%s%s", Instant.now().toEpochMilli(), ext));
 			
 			articlePictureList.add(articlePicture);
 		}
