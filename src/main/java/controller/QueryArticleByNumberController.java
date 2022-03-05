@@ -24,12 +24,12 @@ public class QueryArticleByNumberController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ArticleBean article;
-		ArticleDAOImpl dao = new ArticleDAOImpl();
+		ArticleDAOImpl articleDAO = (ArticleDAOImpl) getServletContext().getAttribute("articleDAO");
 		
 		HttpSession session = request.getSession();
 		
 		try {
-			article = dao.queryByNumber((String) session.getAttribute("articleNo"));
+			article = articleDAO.queryByNumber((String) session.getAttribute("articleNo"));
 			
 			Gson gson = new Gson();
 			String str = gson.toJson(article);

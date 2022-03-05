@@ -23,10 +23,11 @@ public class QueryArticleAllController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<ArticleBean> articleList;
-		ArticleDAOImpl dao = new ArticleDAOImpl();
+		
+		ArticleDAOImpl articleDAO = (ArticleDAOImpl) getServletContext().getAttribute("articleDAO");
 		
 		try {
-			articleList = dao.queryAll();
+			articleList = articleDAO.queryAll();
 			
 			Gson gson = new Gson();
 			String str = gson.toJson(articleList);

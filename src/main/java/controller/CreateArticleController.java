@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,7 +23,8 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 import model.MemberBean;
 
-@MultipartConfig(location = "C:\\Users\\Student\\Desktop\\images")
+//@MultipartConfig(location = "C:\\Users\\Student\\Desktop\\images")
+@MultipartConfig(location = "C:\\Users\\wayne\\Desktop\\images")
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
@@ -35,10 +35,12 @@ public class CreateArticleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private String CreateArticle_Path;
+	private ArticleDAOImpl articleDAO;
 	
 	@Override
 	public void init() throws ServletException{
 		CreateArticle_Path = getInitParameter("CreateArticle_Path");
+		articleDAO = (ArticleDAOImpl) getServletContext().getAttribute("articleDAO");
 	}
 	
 //	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,14 +61,8 @@ public class CreateArticleController extends HttpServlet {
 		article.setArticleNo(articleNo);
 		
 		MemberBean member = (MemberBean) session.getAttribute("member");
-		String username;
-		if (member.getUsername() != null) {
-			username = member.getUsername();
-		} else {
-			username = member.getAccount();
-		}
-		article.setAuthor(member.getAccount());
 		
+		article.setAuthor(member.getAccount());
 		article.setPostTime(new Date().getTime());
 		article.setTitle(request.getParameter("title"));
 		article.setCategory(request.getParameter("category"));
@@ -113,9 +109,8 @@ public class CreateArticleController extends HttpServlet {
 		article.setPictureList(articlePictureList);
 		
 		//InsertData
-		ArticleDAOImpl dao = new ArticleDAOImpl();
 		try {
-			dao.insertData(article);
+			articleDAO.insertData(article);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

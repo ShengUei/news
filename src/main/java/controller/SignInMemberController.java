@@ -28,12 +28,14 @@ public class SignInMemberController extends HttpServlet {
 	private String SignInSuccess_Path;
 	private String SignInFailure_Path;
 	private String SignOut_Path;
+	private MemberDAOImpl memberDAO;
 	
 	@Override
 	public void init() throws ServletException{
 		SignInSuccess_Path = getInitParameter("SignInSuccess_Path");
 		SignInFailure_Path = getInitParameter("SignInFailure_Path");
 		SignOut_Path = getInitParameter("SignOut_Path");
+		memberDAO = (MemberDAOImpl) getServletContext().getAttribute("memberDAO");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,10 +50,8 @@ public class SignInMemberController extends HttpServlet {
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
 		
-		MemberDAOImpl dao = new MemberDAOImpl();
-		
 		try {
-			MemberBean member = dao.queryByName(account);
+			MemberBean member = memberDAO.queryByName(account);
 			
 			if ((password.hashCode() + Integer.parseInt(member.getSalt())) == Integer.parseInt(member.getHashed_pwd())) {
 				session.setAttribute("member", member);

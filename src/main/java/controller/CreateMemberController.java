@@ -18,7 +18,7 @@ import model.MemberDAOImpl;
 		urlPatterns = {"/CreateMember"},
 		initParams = {
 				@WebInitParam(name = "SignUpSuccess_Path", value = "index.html"),
-				@WebInitParam(name = "SignUpFailure_Path", value = "signUpMember.html")
+				@WebInitParam(name = "SignUpFailure_Path", value = "signUp.html")
 		}
 		)
 public class CreateMemberController extends HttpServlet {
@@ -26,11 +26,13 @@ public class CreateMemberController extends HttpServlet {
 	
 	private String SignUpSuccess_Path;
 	private String SignUpFailure_Path;
+	private MemberDAOImpl memberDAO;
 	
 	@Override
 	public void init() throws ServletException{
 		SignUpSuccess_Path = getInitParameter("SignUpSuccess_Path");
 		SignUpFailure_Path = getInitParameter("SignUpFailure_Path");
+		memberDAO = (MemberDAOImpl) getServletContext().getAttribute("memberDAO");
 	}
 	
 //	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,10 +51,8 @@ public class CreateMemberController extends HttpServlet {
 		member.setSalt(String.valueOf(salt));
 		member.setHashed_pwd(String.valueOf(salt + password.hashCode()));
 		
-		MemberDAOImpl dao = new MemberDAOImpl();
-		
 		try {
-			dao.insertData(member);
+			memberDAO.insertData(member);
 			response.sendRedirect(SignUpSuccess_Path);
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 
@@ -20,14 +17,8 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 	private DataSource dataSource;
 	private Connection conn;
 	
-	public ArticleDAOImpl() {
-		try {
-			Context initialContext = new InitialContext();
-			Context envContext = (Context) initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource) envContext.lookup("jdbc/SideProject1_News");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+	public ArticleDAOImpl(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	@Override

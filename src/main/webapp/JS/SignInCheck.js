@@ -16,7 +16,7 @@ $.ajax({
                 p.innerHTML = `${memberJson.account} 您好`;
             }
 
-            a = document.createElement(a);
+            a = document.createElement("a");
             a.className = "btn btn-primary";
             a.href = "/SignOut";
             a.innerHTML = "Sign Out";

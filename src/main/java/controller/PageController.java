@@ -15,7 +15,8 @@ import javax.servlet.http.HttpSession;
 				@WebInitParam(name = "index_Path", value = "index.html"),
 				@WebInitParam(name = "Article_Path", value = "article.html"),
 				@WebInitParam(name = "SignIn_Path", value = "signIn.html"),
-				@WebInitParam(name = "SignOut_Path", value = "SignOutMember"),
+				@WebInitParam(name = "SignOut_Path", value = "/SignOutMember"),
+				@WebInitParam(name = "SignUp_Path", value = "/CreateMember")
 		}
 		)
 public class PageController extends HttpServlet {
@@ -25,6 +26,7 @@ public class PageController extends HttpServlet {
 	private String Article_Path;
 	private String SignIn_Path;
 	private String SignOut_Path;
+	private String SignUp_Path;
 	
 	@Override
 	public void init() throws ServletException{
@@ -32,6 +34,7 @@ public class PageController extends HttpServlet {
 		Article_Path = getInitParameter("Article_Path");
 		SignIn_Path = getInitParameter("SignIn_Path");
 		SignOut_Path = getInitParameter("SignOut_Path");
+		SignUp_Path = getInitParameter("SignUp_Path");
 	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -49,7 +52,7 @@ public class PageController extends HttpServlet {
 		} else if (request.getRequestURI().equals("/news/SignOut")) {
 			request.getRequestDispatcher(SignOut_Path).forward(request, response);
 		} else if (request.getRequestURI().equals("/news/SignUp")) {
-			
+			request.getRequestDispatcher(SignUp_Path).forward(request, response);
 		}
 	}
 	
