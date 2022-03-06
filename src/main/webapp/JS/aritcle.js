@@ -5,9 +5,11 @@ $.ajax({
         let article = document.querySelector("#article");
         let docFrag = document.createDocumentFragment();
         let div;
+        let div_img;
         let h2;
         let img;
         let p;
+        let br;
         let hr;
 
         div = document.createElement("div");
@@ -25,11 +27,19 @@ $.ajax({
 
         div.appendChild(p);
 
+        div_img = document.createElement("div");
+        div_img.className = "d-flex justify-content-center";
         for (let picture of json.pictureList) {
             img = document.createElement("img");
             img.src = `./images/${picture.picturePath}`;
-            div.appendChild(img);
+            div_img.appendChild(img);
         }
+        div.appendChild(div_img);
+
+        br = document.createElement("br");
+        hr = document.createElement("hr");
+        div.appendChild(br);
+        div.appendChild(hr);
 
         for (let content of json.contentList) {
             p = document.createElement("p");
@@ -37,8 +47,6 @@ $.ajax({
             div.appendChild(p);
         }
 
-        hr = document.createElement("hr");
-        div.appendChild(hr);
 
         docFrag.appendChild(div);
 

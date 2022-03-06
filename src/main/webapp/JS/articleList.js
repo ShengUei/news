@@ -10,6 +10,8 @@ $.ajax({
         let a;
         let h5;
         let p;
+        let hr;
+        let br;
 
         // console.log(json);
         $.each(json, function(index, article) {
@@ -20,6 +22,7 @@ $.ajax({
             img = document.createElement("img");
             img.src = `./images/${article.pictureList[0].picturePath}`;
             img.className = "flex-shrink-0 me-3";
+            img.width = "320";
             img.height = "240";
 
             div.appendChild(img);
@@ -55,6 +58,12 @@ $.ajax({
             div.appendChild(div_body);
 
             docFrag.appendChild(div);
+
+            br = document.createElement("br");
+            hr = document.createElement("hr");
+            docFrag.appendChild(br);
+            docFrag.appendChild(hr);
+
         })
 
         articleList.appendChild(docFrag);
