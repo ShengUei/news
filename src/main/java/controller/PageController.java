@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(
-		urlPatterns = {"", "/Article", "/Category", "/SignIn", "/SignOut", "/SignUp", "/ArticleManagement", "/CreateNewArticle"},
+		urlPatterns = {"", "/Article", "/Category", "/SignIn", "/SignOut", "/SignUp", "/ArticleManagement", "/CreateNewArticle"
+						,"/DeleteThisArticle"},
 		initParams = {
 				@WebInitParam(name = "index_Path", value = "index.html"),
 				@WebInitParam(name = "Article_Path", value = "article.html"),
@@ -19,7 +20,8 @@ import javax.servlet.http.HttpSession;
 				@WebInitParam(name = "SignOut_Path", value = "/SignOutMember"),
 				@WebInitParam(name = "SignUp_Path", value = "signUp.html"),
 				@WebInitParam(name = "ArticleManagement_Path", value = "articleManagement.html"),
-				@WebInitParam(name = "CreateNewArticle_Path", value = "createNewArticle.html")
+				@WebInitParam(name = "CreateNewArticle_Path", value = "createNewArticle.html"),
+				@WebInitParam(name = "DeleteThisArticle_Path", value = "/DeleteArticle")
 		}
 		)
 public class PageController extends HttpServlet {
@@ -33,6 +35,7 @@ public class PageController extends HttpServlet {
 	private String SignUp_Path;
 	private String ArticleManagement_Path;
 	private String CreateNewArticle_Path;
+	private String DeleteThisArticle_Path;
 	
 	@Override
 	public void init() throws ServletException{
@@ -44,6 +47,7 @@ public class PageController extends HttpServlet {
 		SignUp_Path = getInitParameter("SignUp_Path");
 		ArticleManagement_Path = getInitParameter("ArticleManagement_Path");
 		CreateNewArticle_Path = getInitParameter("CreateNewArticle_Path");
+		DeleteThisArticle_Path = getInitParameter("DeleteThisArticle_Path");
 	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -82,6 +86,17 @@ public class PageController extends HttpServlet {
 		} else if (request.getRequestURI().equals("/news/CreateNewArticle")) {
 			if ((boolean)session.getAttribute("isMember") == true) {
 				response.sendRedirect(CreateNewArticle_Path);
+			} else {
+				response.sendRedirect(SignIn_Path);
+			}
+		} else if (request.getRequestURI().equals("/news/DeleteThisArticle")) {
+			if ((boolean)session.getAttribute("isMember") == true) {
+				if (request.getParameter("articleNo") != null) {
+					session.setAttribute("articleNo", request.getParameter("articleNo"));
+					request.getRequestDispatcher(DeleteThisArticle_Path).forward(request, response);
+				} else {
+					response.sendRedirect(ArticleManagement_Path);
+				}
 			} else {
 				response.sendRedirect(SignIn_Path);
 			}

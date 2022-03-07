@@ -467,8 +467,45 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 	}
 
 	@Override
-	public void deleteData(String number) throws SQLException {
-		// TODO Auto-generated method stub
+	public void deleteData(String articleNo) throws SQLException {
+		conn = dataSource.getConnection();
+		
+		//Search contentNo & pictureNo by articleNo
+		String sqlStr = "SELECT * FROM article WHERE articleNo = ?";
+		PreparedStatement preState = conn.prepareStatement(sqlStr);
+		preState.setString(1, articleNo);
+		ResultSet rs = preState.executeQuery();
+		rs.next();
+		String contentNo = rs.getString("contentNo");
+		String pictureNo = rs.getString("pictureNo");
+		
+		rs.close();
+		preState.close();
+		
+		//Delete content by contentNo
+		sqlStr = "DELETE FROM articleContent WHERE contentNo = ?";
+		preState = conn.prepareStatement(sqlStr);
+		preState.setString(1, contentNo);
+		
+		preState.executeUpdate();
+		preState.close();
+		
+		//Delete picture by pictureNo
+		sqlStr = "DELETE FROM articleContent WHERE pictureNo = ?";
+		preState = conn.prepareStatement(sqlStr);
+		preState.setString(1, pictureNo);
+				
+		preState.executeUpdate();
+		preState.close();
+		
+		//Delete article by articleNo
+		sqlStr = "DELETE FROM article WHERE articleNo = ?";
+		preState = conn.prepareStatement(sqlStr);
+		preState.setString(1, articleNo);
+						
+		preState.executeUpdate();
+		preState.close();
+		conn.close();
 		
 	}
 

@@ -47,29 +47,37 @@ $.ajax({
             td.appendChild(a);
             tr.appendChild(td);
 
-            td = document.createElement("td");
-            form = document.createElement("form");
-            form.method = "post";
-            form.action = "#";
-            input = document.createElement("input");
-            input.value = "修改文章";
-            input.type = "submit";
-            input.className = "btn btn-warning";
-            form.appendChild(input);
-            td.appendChild(form);
-            tr.appendChild(td);
+            // td = document.createElement("td");
+            // form = document.createElement("form");
+            // form.method = "post";
+            // form.action = "#";
+            // input = document.createElement("input");
+            // input.value = "修改文章";
+            // input.type = "submit";
+            // input.className = "btn btn-warning";
+            // form.appendChild(input);
+            // td.appendChild(form);
+            // tr.appendChild(td);
 
             td = document.createElement("td");
-            form = document.createElement("form");
-            form.method = "post";
-            form.action = "#";
-            input = document.createElement("input");
-            input.value = "刪除文章";
-            input.type = "submit";
-            input.className = "btn btn-danger";
-            form.appendChild(input);
-            td.appendChild(form);
+            a = document.createElement("a");
+            a.href = `DeleteThisArticle?articleNo=${article.articleNo}`;
+            a.innerHTML = "刪除文章";
+            a.className = "btn btn-danger";
+            td.appendChild(a);
             tr.appendChild(td);
+
+            // td = document.createElement("td");
+            // form = document.createElement("form");
+            // form.method = "post";
+            // form.action = "DeleteArticle";
+            // input = document.createElement("input");
+            // input.value = "刪除文章";
+            // input.type = "submit";
+            // input.className = "btn btn-danger";
+            // form.appendChild(input);
+            // td.appendChild(form);
+            // tr.appendChild(td);
 
             docFrag.appendChild(tr);
 
