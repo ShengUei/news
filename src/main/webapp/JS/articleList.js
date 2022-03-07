@@ -44,7 +44,9 @@ $.ajax({
             div_body.appendChild(p);
             
             p = document.createElement("p");
-            p.innerHTML = `${article.contentList[0].paragraph}`;
+            if (article.contentList[0] !== undefined) {
+                p.innerHTML = `${article.contentList[0].paragraph}`;
+            }
             
             div_body.appendChild(p);
 
