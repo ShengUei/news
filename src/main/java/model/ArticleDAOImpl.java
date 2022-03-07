@@ -34,7 +34,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article ORDER BY postTime DESC;";
+		String sqlStr = "SELECT * FROM article a JOIN member m ON author = account ORDER BY postTime DESC;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		
@@ -44,7 +44,13 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			article = new ArticleBean();
 			
 			article.setArticleNo(rs.getString("articleNo"));
-			article.setAuthor(rs.getString("author"));
+			String username = rs.getString("username");
+			
+			if (username != null) {
+				article.setAuthor(username);
+			} else {
+				article.setAuthor(rs.getString("author"));
+			}
 			
 			try {
 				article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
@@ -131,7 +137,8 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article WHERE category = ? ORDER BY postTime DESC;";
+		String sqlStr = "SELECT * FROM article a JOIN member m ON author = account"
+				+ " WHERE category = ? ORDER BY postTime DESC;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		preState.setString(1, category);
@@ -142,7 +149,13 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 			article = new ArticleBean();
 			
 			article.setArticleNo(rs.getString("articleNo"));
-			article.setAuthor(rs.getString("author"));
+			String username = rs.getString("username");
+			
+			if (username != null) {
+				article.setAuthor(username);
+			} else {
+				article.setAuthor(rs.getString("author"));
+			}
 			
 			try {
 				article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
@@ -229,7 +242,8 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article WHERE author = ? ORDER BY postTime DESC;";
+		String sqlStr = "SELECT * FROM article a JOIN member m ON author = account"
+				+ " WHERE author = ? ORDER BY postTime DESC;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		preState.setString(1, account);
@@ -328,6 +342,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		
 		String sqlStr = "SELECT *"
 				+ " FROM article a JOIN articleContent c ON a.contentNo = c.contentNo"
+				+ " JOIN member m ON author = account"
 				+ " WHERE articleNo = ?;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
@@ -340,7 +355,13 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		while (rs.next()) {
 			if (count == 0) {
 				article.setArticleNo(rs.getString("articleNo"));
-				article.setAuthor(rs.getString("author"));
+				
+				String username = rs.getString("username");
+				if (username != null) {
+					article.setAuthor(username);
+				} else {
+					article.setAuthor(rs.getString("author"));
+				}
 				
 				try {
 					article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
@@ -388,6 +409,30 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		}
 		
 		article.setPictureList(pictureList);
+		
+		rs.close();
+		preState.close();
+		conn.close();
+		
+		return article;
+	}
+	
+	public ArticleBean queryAccountByNumber(String articleNo) throws SQLException {
+		conn = dataSource.getConnection();
+		
+		ArticleBean article = new ArticleBean();
+		
+		String sqlStr = "SELECT * FROM article WHERE articleNo = ?;";
+		
+		PreparedStatement preState = conn.prepareStatement(sqlStr);
+		
+		preState.setString(1, articleNo);
+		
+		ResultSet rs = preState.executeQuery();
+		
+		rs.next();
+		article.setArticleNo(rs.getString("articleNo"));
+		article.setAuthor(rs.getString("author"));
 		
 		rs.close();
 		preState.close();
@@ -491,7 +536,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		preState.close();
 		
 		//Delete picture by pictureNo
-		sqlStr = "DELETE FROM articleContent WHERE pictureNo = ?";
+		sqlStr = "DELETE FROM articlePicture WHERE pictureNo = ?";
 		preState = conn.prepareStatement(sqlStr);
 		preState.setString(1, pictureNo);
 				

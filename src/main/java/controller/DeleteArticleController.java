@@ -45,7 +45,7 @@ public class DeleteArticleController extends HttpServlet {
 		String account = member.getAccount();
 		
 		try {
-			ArticleBean article = articleDAO.queryByNumber(articleNo);
+			ArticleBean article = articleDAO.queryAccountByNumber(articleNo);
 			
 			if (account.equals(article.getAuthor())) {
 				articleDAO.deleteData(articleNo);
