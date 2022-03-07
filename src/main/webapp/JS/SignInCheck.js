@@ -41,7 +41,7 @@ $.ajax({
             li = document.createElement("li");
             a = document.createElement("a");
             a.className = "dropdown-item";
-            a.href = "CreateArticle";
+            a.href = "CreateNewArticle";
             a.innerHTML = "新增文章";
             
             li.appendChild(a);
@@ -50,7 +50,7 @@ $.ajax({
             li = document.createElement("li");
             a = document.createElement("a");
             a.className = "dropdown-item";
-            a.href = "#";
+            a.href = "ArticleManagement";
             a.innerHTML = "文章管理";
             
             li.appendChild(a);
