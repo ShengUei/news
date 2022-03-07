@@ -13,7 +13,7 @@ $.ajax({
         let hr;
         let br;
 
-         console.log(json);
+        // console.log(json);
         $.each(json, function(index, article) {
             div = document.createElement("div");
             div.id = "article";
