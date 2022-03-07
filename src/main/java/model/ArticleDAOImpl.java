@@ -229,7 +229,7 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		List<ArticlePicture> pictureList;
 		ArticlePicture picture;
 		
-		String sqlStr = "SELECT * FROM article WHERE account = ? ORDER BY postTime DESC;";
+		String sqlStr = "SELECT * FROM article WHERE author = ? ORDER BY postTime DESC;";
 		
 		PreparedStatement preState = conn.prepareStatement(sqlStr);
 		preState.setString(1, account);

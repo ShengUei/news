@@ -21,7 +21,6 @@ public class OffOnline implements HttpSessionListener {
     	member = (MemberBean) session.getAttribute("member");
     	
     	String account = member.getAccount();
-    	System.out.println("sessionDestroyed, account = " + account);
     	
     	try {
 			memberDAO.updateOnline(account, false);

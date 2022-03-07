@@ -52,7 +52,7 @@ $.ajax({
             form.method = "post";
             form.action = "#";
             input = document.createElement("input");
-            input.innerHTML = "修改文章";
+            input.value = "修改文章";
             input.type = "submit";
             input.className = "btn btn-warning";
             form.appendChild(input);
@@ -64,7 +64,7 @@ $.ajax({
             form.method = "post";
             form.action = "#";
             input = document.createElement("input");
-            input.innerHTML = "刪除文章";
+            input.value = "刪除文章";
             input.type = "submit";
             input.className = "btn btn-danger";
             form.appendChild(input);
