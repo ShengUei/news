@@ -217,6 +217,104 @@ public class ArticleDAOImpl implements GenericDAO<ArticleBean>{
 		return articleList;
 	}
 	
+	public List<ArticleBean> queryByAccount(String account) throws SQLException {
+		conn = dataSource.getConnection();
+		
+		List<ArticleBean> articleList = new ArrayList<ArticleBean>();
+		ArticleBean article;
+		
+		List<ArticleContent> contentList;
+		ArticleContent content;
+		
+		List<ArticlePicture> pictureList;
+		ArticlePicture picture;
+		
+		String sqlStr = "SELECT * FROM article WHERE account = ? ORDER BY postTime DESC;";
+		
+		PreparedStatement preState = conn.prepareStatement(sqlStr);
+		preState.setString(1, account);
+		
+		ResultSet rs = preState.executeQuery();
+		
+		while (rs.next()) {
+			article = new ArticleBean();
+			
+			article.setArticleNo(rs.getString("articleNo"));
+			article.setAuthor(rs.getString("author"));
+			
+			try {
+				article.setPostTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("postTime")).getTime());
+				if (rs.getString("lastUpdateTime") != null) {
+					article.setLastUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("lastUpdateTime")).getTime());
+				}
+			} catch (ParseException | SQLException e) {
+				e.printStackTrace();
+			}
+			
+			article.setTitle(rs.getString("title"));
+			article.setCategory(rs.getString("category"));
+			
+			//articleContent
+			contentList = new ArrayList<ArticleContent>();
+			
+			sqlStr = "SELECT * FROM articleContent WHERE contentNo = ?;";
+			
+			preState = conn.prepareStatement(sqlStr);
+			
+			preState.setString(1, rs.getString("contentNo"));
+			
+			ResultSet rsContent = preState.executeQuery();
+			
+			while (rsContent.next()) {
+				content = new ArticleContent();
+				
+				content.setContentNo(rsContent.getString("contentNo"));
+				content.setIndex_para(rsContent.getInt("index_para"));
+				content.setParagraph(rsContent.getString("paragraph"));
+				
+				contentList.add(content);
+			}
+			
+			article.setContentList(contentList);
+			
+			rsContent.close();
+			
+			//articlePicture
+			pictureList = new ArrayList<ArticlePicture>();
+			
+			sqlStr = "SELECT * FROM articlePicture WHERE pictureNo = ?;";
+			
+			preState = conn.prepareStatement(sqlStr);
+			
+			preState.setString(1, rs.getString("pictureNo"));
+			
+			ResultSet rsPicture = preState.executeQuery();
+			
+			while (rsPicture.next()) {
+				picture = new ArticlePicture();
+				
+				picture.setPictureNo(rsPicture.getString("pictureNo"));
+				picture.setIndex_pic(rsPicture.getInt("index_pic"));
+				picture.setPicturePath(rsPicture.getString("picturePath"));
+				
+				pictureList.add(picture);
+			}
+			
+			article.setPictureList(pictureList);
+			
+			rsPicture.close();
+			
+			articleList.add(article);
+		}
+		
+		
+		rs.close();
+		preState.close();
+		conn.close();
+		
+		return articleList;
+	}
+	
 	public ArticleBean queryByNumber(String articleNo) throws SQLException {
 		conn = dataSource.getConnection();
 		

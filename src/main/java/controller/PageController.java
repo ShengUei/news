@@ -10,14 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebServlet(
-		urlPatterns = {"", "/Article", "/Category", "/SignIn", "/SignOut", "/SignUp"},
+		urlPatterns = {"", "/Article", "/Category", "/SignIn", "/SignOut", "/SignUp", "/ArticleManagement", "/CreateNewArticle"},
 		initParams = {
 				@WebInitParam(name = "index_Path", value = "index.html"),
 				@WebInitParam(name = "Article_Path", value = "article.html"),
 				@WebInitParam(name = "Category_Path", value = "category.html"),
 				@WebInitParam(name = "SignIn_Path", value = "signIn.html"),
 				@WebInitParam(name = "SignOut_Path", value = "/SignOutMember"),
-				@WebInitParam(name = "SignUp_Path", value = "signUp.html")
+				@WebInitParam(name = "SignUp_Path", value = "signUp.html"),
+				@WebInitParam(name = "ArticleManagement_Path", value = "articleManagement.html"),
+				@WebInitParam(name = "CreateNewArticle_Path", value = "createNewArticle.html")
 		}
 		)
 public class PageController extends HttpServlet {
@@ -29,6 +31,8 @@ public class PageController extends HttpServlet {
 	private String SignIn_Path;
 	private String SignOut_Path;
 	private String SignUp_Path;
+	private String ArticleManagement_Path;
+	private String CreateNewArticle_Path;
 	
 	@Override
 	public void init() throws ServletException{
@@ -38,6 +42,8 @@ public class PageController extends HttpServlet {
 		SignIn_Path = getInitParameter("SignIn_Path");
 		SignOut_Path = getInitParameter("SignOut_Path");
 		SignUp_Path = getInitParameter("SignUp_Path");
+		ArticleManagement_Path = getInitParameter("ArticleManagement_Path");
+		CreateNewArticle_Path = getInitParameter("CreateNewArticle_Path");
 	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,6 +73,18 @@ public class PageController extends HttpServlet {
 			request.getRequestDispatcher(SignOut_Path).forward(request, response);
 		} else if (request.getRequestURI().equals("/news/SignUp")) {
 			response.sendRedirect(SignUp_Path);
+		} else if (request.getRequestURI().equals("/news/ArticleManagement")) {
+			if ((boolean)session.getAttribute("isMember") == true) {
+				response.sendRedirect(ArticleManagement_Path);
+			} else {
+				response.sendRedirect(SignIn_Path);
+			}
+		} else if (request.getRequestURI().equals("/news/CreateNewArticle")) {
+			if ((boolean)session.getAttribute("isMember") == true) {
+				response.sendRedirect(CreateNewArticle_Path);
+			} else {
+				response.sendRedirect(SignIn_Path);
+			}
 		}
 	}
 	

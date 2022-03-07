@@ -50,7 +50,7 @@ public class CreateMemberController extends HttpServlet {
 		int salt = ThreadLocalRandom.current().nextInt();
 		
 		member.setSalt(String.valueOf(salt));
-		member.setHashed_pwd(String.valueOf(salt + password.hashCode()));
+		member.setEncrypt_pwd(String.valueOf(salt + password.hashCode()));
 		
 		try {
 			memberDAO.insertData(member);

@@ -6,7 +6,7 @@ public class MemberBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String account;
-	private String hashed_pwd;
+	private String encrypt_pwd;
 	private String salt;
 	private String username;
 	
@@ -21,12 +21,12 @@ public class MemberBean implements Serializable{
 		this.account = account;
 	}
 
-	public String getHashed_pwd() {
-		return hashed_pwd;
+	public String getEncrypt_pwd() {
+		return encrypt_pwd;
 	}
 
-	public void setHashed_pwd(String hashed_pwd) {
-		this.hashed_pwd = hashed_pwd;
+	public void setEncrypt_pwd(String encrypt_pwd) {
+		this.encrypt_pwd = encrypt_pwd;
 	}
 
 	public String getSalt() {

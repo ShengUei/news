@@ -29,6 +29,7 @@ public class SignInMemberController extends HttpServlet {
 	private String SignInFailure_Path;
 	private String SignOut_Path;
 	private boolean isMember;
+	private boolean isOnline;
 	private MemberDAOImpl memberDAO;
 	
 	@Override
@@ -40,8 +41,18 @@ public class SignInMemberController extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getSession().invalidate();
-		response.sendRedirect(SignOut_Path);
+		MemberBean member = (MemberBean) request.getSession().getAttribute("member");
+		String account = member.getAccount();
+		
+		try {
+			isOnline = memberDAO.isOnline(account);
+			memberDAO.updateOnline(account, !isOnline);
+			request.getSession().invalidate();
+			response.sendRedirect(SignOut_Path);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,8 +64,11 @@ public class SignInMemberController extends HttpServlet {
 		
 		try {
 			MemberBean member = memberDAO.queryByName(account);
+			isOnline = memberDAO.isOnline(account);
 			
-			if ((password.hashCode() + Integer.parseInt(member.getSalt())) == Integer.parseInt(member.getHashed_pwd())) {
+			if ((password.hashCode() + Integer.parseInt(member.getSalt())) == Integer.parseInt(member.getEncrypt_pwd()) 
+					&& isOnline == false) {
+				memberDAO.updateOnline(account, !isOnline);
 				session.setAttribute("member", member);
 				isMember = true;
 				session.setAttribute("isMember", isMember);
