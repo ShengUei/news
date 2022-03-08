@@ -1,0 +1,2 @@
+In Servers Folder server.xml write in <host></host>: 
+	<Context docBase="C:\eclipse-workspace\SideProject-workspace\news\src\main\webapp\images" path="/images" reloadable="true"/>

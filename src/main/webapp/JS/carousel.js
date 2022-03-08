@@ -7,7 +7,7 @@ $.ajax({
         let carousel_ps = document.querySelectorAll(".carousel-caption > p");
 
         $.each(json, function(index, article) {
-            carousel_imgs[index].src = `./images/${article.pictureList[0].picturePath}`;
+            carousel_imgs[index].src = `/images/${article.pictureList[0].picturePath}`;
             carousel_imgs[index].width = "800";
             carousel_imgs[index].height = "400";
 

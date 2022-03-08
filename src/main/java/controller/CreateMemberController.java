@@ -27,6 +27,7 @@ public class CreateMemberController extends HttpServlet {
 	
 	private String SignUpSuccess_Path;
 	private String SignUpFailure_Path;
+	private boolean isMember;
 	private MemberDAOImpl memberDAO;
 	
 	@Override
@@ -58,6 +59,8 @@ public class CreateMemberController extends HttpServlet {
 			HttpSession session = request.getSession(true);
 			request.changeSessionId();
 			session.setAttribute("member", member);
+			isMember = true;
+			session.setAttribute("isMember", isMember);
 			
 			response.sendRedirect(SignUpSuccess_Path);
 		} catch (SQLException e) {

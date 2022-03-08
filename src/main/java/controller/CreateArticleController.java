@@ -24,7 +24,8 @@ import model.ArticleDAOImpl;
 import model.ArticlePicture;
 import model.MemberBean;
 
-@MultipartConfig(location = "C:\\eclipse-workspace\\SideProject1-workspace\\news\\src\\main\\webapp\\images")
+//@MultipartConfig(location = "C:\\eclipse-workspace\\SideProject1-workspace\\news\\src\\main\\webapp\\images")
+@MultipartConfig(location = "C:\\eclipse-workspace\\SideProject-workspace\\news\\src\\main\\webapp\\images")
 @WebServlet(
 		urlPatterns = {"/CreateArticle"},
 		initParams = {
@@ -100,12 +101,12 @@ public class CreateArticleController extends HttpServlet {
 			
 			submittedFileName = ((Part) array[i]).getSubmittedFileName();
 			ext = submittedFileName.substring(submittedFileName.lastIndexOf("."));
-			
-			((Part) array[i]).write(String.format("%s%s", Instant.now().toEpochMilli(), ext));
+			long m = Instant.now().toEpochMilli();
+			((Part) array[i]).write(String.format("%s%s", m, ext));
 			
 			articlePicture.setPictureNo(pictureNo);
 			articlePicture.setIndex_pic(i + 1);
-			articlePicture.setPicturePath(String.format("%s%s", Instant.now().toEpochMilli(), ext));
+			articlePicture.setPicturePath(String.format("%s%s", m, ext));
 			
 			articlePictureList.add(articlePicture);
 		}

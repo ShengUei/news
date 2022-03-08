@@ -20,7 +20,8 @@ $.ajax({
             div.className = "media d-flex position-relative";
 
             img = document.createElement("img");
-            img.src = `./images/${article.pictureList[0].picturePath}`;
+//            img.src = `./images/${article.pictureList[0].picturePath}`;
+            img.src = `/images/${article.pictureList[0].picturePath}`;
             img.className = "flex-shrink-0 me-3";
             img.width = "320";
             img.height = "240";

@@ -31,7 +31,7 @@ $.ajax({
         div_img.className = "d-flex justify-content-center";
         for (let picture of json.pictureList) {
             img = document.createElement("img");
-            img.src = `./images/${picture.picturePath}`;
+            img.src = `/images/${picture.picturePath}`;
             div_img.appendChild(img);
         }
         div.appendChild(div_img);
